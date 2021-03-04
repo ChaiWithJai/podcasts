@@ -1,0 +1,11 @@
+.list {
+  background: lightgrey;
+  padding: 4;
+  margin: 8;
+  width: 500px;
+  min-height: 500px;
+}
+
+.active {
+  background: lightblue;
+}
