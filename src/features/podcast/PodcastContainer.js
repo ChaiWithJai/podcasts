@@ -33,8 +33,14 @@ const PodcastContainer = () => {
   return (
     <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
       <DragDropContext onDragEnd={(result) => handleDrag(result)}>
-        <PodcastListDraggableWrapper podcasts={podcasts} droppableId="left-list" />
-        <PodcastListDraggableWrapper podcasts={podcasts} droppableId="right-list" />
+        <PodcastListDraggableWrapper
+          podcasts={podcasts}
+          droppableId="left-list"
+        />
+        <PodcastListDraggableWrapper
+          podcasts={podcasts}
+          droppableId="right-list"
+        />
       </DragDropContext>
     </div>
   );

@@ -25,7 +25,7 @@ const podcastSlice = createSlice({
     updatePlaying: (state, action) => {
       state.currentlyPlaying = action.payload;
     },
-    updatePlayQueue: (state, {payload: podcast}) => {
+    updatePlayQueue: (state, { payload: podcast }) => {
       const idx = findIndex(state.playQueue, podcast);
       const isAlreadyInPlayQueue = !!idx;
       if (isAlreadyInPlayQueue) {
@@ -52,7 +52,11 @@ const podcastSlice = createSlice({
   },
 });
 
-export const { updatePlaying, updatePodcast, updatePlayQueue } = podcastSlice.actions;
+export const {
+  updatePlaying,
+  updatePodcast,
+  updatePlayQueue,
+} = podcastSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
