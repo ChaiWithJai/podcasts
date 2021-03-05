@@ -12,6 +12,7 @@ const formatPodcasts = (list) =>
   list?.map((podcast) => ({ ...podcast, isSelected: false }));
 
 const initialState = {
+  playQueue: [],
   podcasts: [],
   currentlyPlaying: "",
   status: "idle",
@@ -24,9 +25,17 @@ const podcastSlice = createSlice({
     updatePlaying: (state, action) => {
       state.currentlyPlaying = action.payload;
     },
+    updatePlayQueue: (state, {payload: podcast}) => {
+      const idx = findIndex(state.playQueue, podcast);
+      const isAlreadyInPlayQueue = !!idx;
+      if (isAlreadyInPlayQueue) {
+        state.playQueue = state.playQueue.slice(idx);
+      }
+    },
     updatePodcast: (state, { payload: podcast }) => {
       const idx = findIndex(state.podcasts, podcast);
       state.podcasts[idx] = { ...podcast, isSelected: !podcast.isSelected };
+      if (!podcast.isSelected) state.playQueue.push(podcast);
     },
   },
   extraReducers: {
@@ -43,7 +52,7 @@ const podcastSlice = createSlice({
   },
 });
 
-export const { updatePlaying, updatePodcast } = podcastSlice.actions;
+export const { updatePlaying, updatePodcast, updatePlayQueue } = podcastSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
@@ -51,5 +60,6 @@ export const { updatePlaying, updatePodcast } = podcastSlice.actions;
 export const selectAllPodcasts = (state) => state.podcast.podcasts;
 export const selectPodcastStatus = (state) => state.podcast.status;
 export const selectCurrentlyPlaying = (state) => state.podcast.currentlyPlaying;
+export const selectPlayQueue = (state) => state.podcast.playQueue;
 
 export default podcastSlice.reducer;

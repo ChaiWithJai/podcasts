@@ -4,9 +4,6 @@ const useAudioSettings = (title) => {
   let audio = document.getElementById(title);
   const [playing, setPlaying] = useState(false);
 
-  // console.log(audio)
-  // console.log(playing)
-
   useEffect(() => {
     if (!audio) {
       return;
@@ -17,21 +14,21 @@ const useAudioSettings = (title) => {
       try {
         audio && audio.play();
       } catch (err) {
-        console.error(err);
+        console.error("issue playing audio\n\n", err.message);
       }
     } else {
       try {
         audio && audio.pause();
       } catch (err) {
-        console.error(err);
+        console.error("issue pausing audio\n\n", err.message);
       }
     }
   });
 
-  return {
+  return [
     playing,
     setPlaying,
-  };
+  ];
 };
 
 export default useAudioSettings;
