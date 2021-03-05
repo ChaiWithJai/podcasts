@@ -14,6 +14,7 @@ const formatPodcasts = (list) =>
 const initialState = {
   playQueue: [],
   podcasts: [],
+  selectedPodcasts: [],
   currentlyPlaying: "",
   status: "idle",
 };
@@ -34,8 +35,19 @@ const podcastSlice = createSlice({
     },
     updatePodcast: (state, { payload: podcast }) => {
       const idx = findIndex(state.podcasts, podcast);
-      state.podcasts[idx] = { ...podcast, isSelected: !podcast.isSelected };
-      if (!podcast.isSelected) state.playQueue.push(podcast);
+      const isSelected = !!state.selectedPodcasts[idx];
+      if (!isSelected) {
+        state.podcasts = state.podcasts.filter(
+          (pod) => podcast.title !== pod.title
+        );
+        state.selectedPodcasts.push(podcast);
+        state.playQueue.push(podcast);
+      } else {
+        state.selectedPodcasts = state.selectedPodcasts.filter(
+          (pod) => podcast.title !== pod.title
+        );
+        state.podcasts.push(podcast);
+      }
     },
   },
   extraReducers: {
@@ -62,6 +74,7 @@ export const {
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state) => state.counter.value)`
 export const selectAllPodcasts = (state) => state.podcast.podcasts;
+export const selectSelectedPodcasts = (state) => state.podcast.selectedPodcasts;
 export const selectPodcastStatus = (state) => state.podcast.status;
 export const selectCurrentlyPlaying = (state) => state.podcast.currentlyPlaying;
 export const selectPlayQueue = (state) => state.podcast.playQueue;
