@@ -25,10 +25,7 @@ const useAudioSettings = (title) => {
     }
   });
 
-  return [
-    playing,
-    setPlaying,
-  ];
+  return [playing, setPlaying];
 };
 
 export default useAudioSettings;

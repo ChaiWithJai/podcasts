@@ -4,7 +4,12 @@ import { useSelector, useDispatch } from "react-redux";
 import Play from "./Play";
 import Pause from "./Pause";
 
-import { selectCurrentlyPlaying, selectPlayQueue, updatePlaying, updatePlayQueue } from "../../podcastSlice";
+import {
+  selectCurrentlyPlaying,
+  selectPlayQueue,
+  updatePlaying,
+  updatePlayQueue,
+} from "../../podcastSlice";
 import useAudioSettings from "./useAudioSettings";
 
 const AudioPlayer = ({ podcast }) => {
@@ -19,9 +24,8 @@ const AudioPlayer = ({ podcast }) => {
       setPlaying(false);
     } else if (podcast.title === currentlyPlaying) {
       setPlaying(true);
-    };
-
-  }, [currentlyPlaying, playing]);
+    }
+  }, [currentlyPlaying, playing, podcast.title]);
 
   const handlePlay = () => {
     setPlaying(true);
@@ -32,28 +36,26 @@ const AudioPlayer = ({ podcast }) => {
     setPlaying(false);
     const currentPodIdx = playQueue.findIndex((p) => p.title === podcast.title);
     const isInPlaylist = !!currentPodIdx;
-    
+
     if (isInPlaylist < 0) return;
-    
-    const nextPodcast = playQueue[currentPodIdx+1];
+
+    const nextPodcast = playQueue[currentPodIdx + 1];
     dispatch(updatePlaying(nextPodcast.title));
     dispatch(updatePlayQueue(nextPodcast));
-  }
+  };
 
   if (podcast) {
     return (
       <div className="player">
-        <audio loop={false} onEnded={handleNextPodcast} onPlay={handlePlay} controls id={podcast.title}>
+        <audio
+          loop={false}
+          onEnded={handleNextPodcast}
+          onPlay={handlePlay}
+          controls
+          id={podcast.title}
+        >
           {<source src={podcast.audio} />}
         </audio>
-
-        {/* <div className="controls">
-          {playing ? (
-            <Pause handleClick={() => setPlaying(false)} />
-          ) : (
-            <Play handleClick={handlePlay} />
-          )}
-        </div> */}
       </div>
     );
   }
